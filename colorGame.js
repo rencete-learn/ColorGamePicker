@@ -1,26 +1,38 @@
 var colors = [];
+var correctIndex = 0;
 
-var generateRandomColors = function(num) {
+// Main program proper
+generateRandomColors(6);
+
+for(var i = 0; i < colors.length; i++) {
+    document.querySelectorAll(".square")[i].style.backgroundColor = colors[i];
+}
+
+assignCorrectColor();
+
+// *** FUNCTIONS ***
+
+function generateRandomColors(num) {
     colors = new Array(num);
     for (var i = 0; i < colors.length; i++) {
         colors[i] = "";
     }
-    colors = colors.map(() => {
-        var genColorValue = function() {
-            return Math.round((Math.random() * 255))
-        }
-        var red = genColorValue();
-        var green = genColorValue();
-        var blue = genColorValue();
+    colors = colors.map(() => {        
+        var red = genRandomValue(255);
+        var green = genRandomValue(255);
+        var blue = genRandomValue(255);
         var color = "RGB(" + red + ", " + green + ", " + blue + ")";
         return color;
     });
 }
 
-generateRandomColors(6);
+function assignCorrectColor() {
+    correctIndex = genRandomValue(5);
+    document.getElementById("display").textContent = colors[correctIndex];
+}
 
-for(var i = 0; i < colors.length; i++) {
-    document.querySelectorAll(".square")[i].style.backgroundColor = colors[i];
+function genRandomValue(multiplier) {
+    return Math.round((Math.random() * multiplier));
 }
 
 // **** To get the computed properties from CSS file ****
