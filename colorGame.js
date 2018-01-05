@@ -3,12 +3,39 @@ var correctIndex = 0;
 
 // Main program proper
 generateRandomColors(6);
+assignCorrectColor();
 
-for(var i = 0; i < colors.length; i++) {
+for(let i = 0; i < colors.length; i++) {
     document.querySelectorAll(".square")[i].style.backgroundColor = colors[i];
+    document.querySelectorAll(".square")[i].addEventListener("click", function() {
+        if(i === correctIndex) {
+            // Set other divs to have the same color
+            var applyColor = this.style.backgroundColor;
+            var divs = document.querySelectorAll(".square");
+            for (var index = 0; index < divs.length; index++) {
+                divs[index].style.backgroundColor = applyColor;
+                if (divs[index].style.opacity < 0.1) {
+                    divs[index].style.opacity = "";
+                }
+            }
+        }
+        else {
+            // Fade out effect
+            var fadeTarget = this;
+            var fadeEffect = setInterval(function () {
+                if (!fadeTarget.style.opacity) {
+                    fadeTarget.style.opacity = 1;
+                }
+                if (fadeTarget.style.opacity < 0.1) {
+                    clearInterval(fadeEffect);
+                } else {
+                    fadeTarget.style.opacity -= 0.1;
+                }
+            }, 25);
+        }
+    })
 }
 
-assignCorrectColor();
 
 // *** FUNCTIONS ***
 
