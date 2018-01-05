@@ -3,7 +3,7 @@ var correctIndex = 0;
 
 // Main program proper
 generateRandomColors(6);
-assignCorrectColor();
+assignCorrectColor(6);
 
 for(let i = 0; i < colors.length; i++) {
     document.querySelectorAll(".square")[i].style.backgroundColor = colors[i];
@@ -14,24 +14,10 @@ for(let i = 0; i < colors.length; i++) {
             var divs = document.querySelectorAll(".square");
             for (var index = 0; index < divs.length; index++) {
                 divs[index].style.backgroundColor = applyColor;
-                if (divs[index].style.opacity < 0.1) {
-                    divs[index].style.opacity = "";
-                }
             }
         }
         else {
-            // Fade out effect
-            var fadeTarget = this;
-            var fadeEffect = setInterval(function () {
-                if (!fadeTarget.style.opacity) {
-                    fadeTarget.style.opacity = 1;
-                }
-                if (fadeTarget.style.opacity < 0.1) {
-                    clearInterval(fadeEffect);
-                } else {
-                    fadeTarget.style.opacity -= 0.1;
-                }
-            }, 25);
+            this.style.backgroundColor = "#232323";
         }
     })
 }
@@ -53,8 +39,8 @@ function generateRandomColors(num) {
     });
 }
 
-function assignCorrectColor() {
-    correctIndex = genRandomValue(5);
+function assignCorrectColor(numDivs) {
+    correctIndex = genRandomValue(numDivs-1);
     document.getElementById("display").textContent = colors[correctIndex];
 }
 
@@ -67,3 +53,16 @@ function genRandomValue(multiplier) {
 // var style = window.getComputedStyle(div1, null);
 // var bgColor = style.getPropertyValue("background-color");
 // alert(bgColor);
+
+// **** Fade out effect ****
+var fadeTarget = this;
+var fadeEffect = setInterval(function () {
+    if (!fadeTarget.style.opacity) {
+        fadeTarget.style.opacity = 1;
+    }
+    if (fadeTarget.style.opacity < 0.1) {
+        clearInterval(fadeEffect);
+    } else {
+        fadeTarget.style.opacity -= 0.1;
+    }
+}, 25);
