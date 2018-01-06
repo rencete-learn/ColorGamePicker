@@ -45,6 +45,7 @@ h1 {
 #status {
     width: 20%;
     display: inline-block;
+    font-weight: bold;
 }
 
 button {

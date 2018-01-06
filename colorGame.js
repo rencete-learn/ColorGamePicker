@@ -6,11 +6,16 @@ var pickedIndex = 0;
 var gameMode = hardMode;
 var gameFinished = false;
 
+// Selectors
+var statusLine = document.getElementById("status");
+var rstBtn = document.getElementById("reset");
+
 // Main program proper
-generateRandomColors(6);
-pickCorrectColor(6);
-addSquareListeners();
+generateRandomColors(gameMode);
+pickCorrectColor(gameMode);
 styleColorSquares();
+addSquareListeners();
+addButtonListeners();
 
 // *** FUNCTIONS ***
 
@@ -46,6 +51,8 @@ function addSquareListeners() {
 }
 
 function successEventListener(that) {
+    statusLine.textContent = "Success!";
+    rstBtn.textContent = "Play Again?";
     // Set other divs to have the same color
     var applyColor = that.style.backgroundColor;
     var divs = document.querySelectorAll(".square");
@@ -57,6 +64,7 @@ function successEventListener(that) {
 
 function failEventListener(that) {
     that.style.backgroundColor = "#232323";
+    statusLine.textContent = "Try Again";
 }
 
 function styleColorSquares() {
@@ -69,6 +77,21 @@ function styleColorSquares() {
             squares[i].style.display = "none";
         }
     }
+}
+
+function addButtonListeners() {
+    rstBtn.addEventListener("click", function() {
+        reset();
+    })
+}
+
+function reset() {
+    generateRandomColors(gameMode);
+    pickCorrectColor(gameMode);
+    styleColorSquares();
+    statusLine.textContent = "";
+    gameFinished = false;
+    rstBtn.textContent = "New Colors";
 }
 
 // Generates a random value between 0 and the number passed in
