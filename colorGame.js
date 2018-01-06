@@ -9,15 +9,19 @@ var gameFinished = false;
 // Selectors
 var statusLine = document.getElementById("status");
 var rstBtn = document.getElementById("reset");
+var easyBtn = document.getElementById("easyBtn");
+var hardBtn = document.getElementById("hardBtn");
+
 
 // Main program proper
-generateRandomColors(gameMode);
-pickCorrectColor(gameMode);
-styleColorSquares();
-addSquareListeners();
-addButtonListeners();
+init();
 
 // *** FUNCTIONS ***
+function init() {
+    reset();
+    addSquareListeners();
+    addButtonListeners();
+}
 
 function generateRandomColors(num) {
     colors = [];
@@ -72,6 +76,7 @@ function styleColorSquares() {
     for(var i = 0; i < hardMode; i++) {
         if(colors[i]) {
             squares[i].style.backgroundColor = colors[i];
+            squares[i].style.display = "";
         }
         else {
             squares[i].style.display = "none";
@@ -81,6 +86,18 @@ function styleColorSquares() {
 
 function addButtonListeners() {
     rstBtn.addEventListener("click", function() {
+        reset();
+    })
+    document.getElementById("easyBtn").addEventListener("click", function() {
+        this.classList.add("selected");
+        hardBtn.classList.remove("selected");
+        gameMode = easyMode;
+        reset();
+    })
+    document.getElementById("hardBtn").addEventListener("click", function() {
+        this.classList.add("selected");
+        easyBtn.classList.remove("selected");
+        gameMode = hardMode;
         reset();
     })
 }
