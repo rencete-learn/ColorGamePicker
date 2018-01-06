@@ -1,51 +1,79 @@
+const hardMode = 6;
+const easyMode = 3;
+
 var colors = [];
-var correctIndex = 0;
+var pickedIndex = 0;
+var gameMode = hardMode;
+var gameFinished = false;
 
 // Main program proper
 generateRandomColors(6);
-assignCorrectColor(6);
-
-for(let i = 0; i < colors.length; i++) {
-    document.querySelectorAll(".square")[i].style.backgroundColor = colors[i];
-    document.querySelectorAll(".square")[i].addEventListener("click", function() {
-        if(i === correctIndex) {
-            // Set other divs to have the same color
-            var applyColor = this.style.backgroundColor;
-            var divs = document.querySelectorAll(".square");
-            for (var index = 0; index < divs.length; index++) {
-                divs[index].style.backgroundColor = applyColor;
-            }
-        }
-        else {
-            this.style.backgroundColor = "#232323";
-        }
-    })
-}
-
+pickCorrectColor(6);
+addSquareListeners();
+styleColorSquares();
 
 // *** FUNCTIONS ***
 
 function generateRandomColors(num) {
-    colors = new Array(num);
-    for (var i = 0; i < colors.length; i++) {
-        colors[i] = "";
-    }
-    colors = colors.map(() => {        
+    colors = [];
+    for (var i = 0; i < num; i++) {
         var red = genRandomValue(255);
         var green = genRandomValue(255);
         var blue = genRandomValue(255);
-        var color = "RGB(" + red + ", " + green + ", " + blue + ")";
-        return color;
-    });
+        colors.push("RGB(" + red + ", " + green + ", " + blue + ")");
+    }
 }
 
-function assignCorrectColor(numDivs) {
-    correctIndex = genRandomValue(numDivs-1);
-    document.getElementById("display").textContent = colors[correctIndex];
+function pickCorrectColor(numDivs) {
+    pickedIndex = genRandomValue(numDivs-1);
+    document.getElementById("display").textContent = colors[pickedIndex];
 }
 
-function genRandomValue(multiplier) {
-    return Math.round((Math.random() * multiplier));
+function addSquareListeners() {
+    var squares = document.querySelectorAll(".square");
+    for(let i = 0; i < hardMode; i++) {
+        squares[i].addEventListener("click", function() {
+            if (gameFinished) {
+                // Do nothing
+            }else if(i === pickedIndex) {
+                successEventListener(this);
+            }
+            else {
+                failEventListener(this);
+            }
+        })
+    }
+}
+
+function successEventListener(that) {
+    // Set other divs to have the same color
+    var applyColor = that.style.backgroundColor;
+    var divs = document.querySelectorAll(".square");
+    for (var index = 0; index < divs.length; index++) {
+        divs[index].style.backgroundColor = applyColor;
+    }
+    gameFinished = true;
+}
+
+function failEventListener(that) {
+    that.style.backgroundColor = "#232323";
+}
+
+function styleColorSquares() {
+    var squares = document.querySelectorAll(".square");
+    for(var i = 0; i < hardMode; i++) {
+        if(colors[i]) {
+            squares[i].style.backgroundColor = colors[i];
+        }
+        else {
+            squares[i].style.display = "none";
+        }
+    }
+}
+
+// Generates a random value between 0 and the number passed in
+function genRandomValue(maxNum) {
+    return Math.floor(Math.random() * (maxNum+1));
 }
 
 // **** To get the computed properties from CSS file ****
@@ -55,14 +83,14 @@ function genRandomValue(multiplier) {
 // alert(bgColor);
 
 // **** Fade out effect ****
-var fadeTarget = this;
-var fadeEffect = setInterval(function () {
-    if (!fadeTarget.style.opacity) {
-        fadeTarget.style.opacity = 1;
-    }
-    if (fadeTarget.style.opacity < 0.1) {
-        clearInterval(fadeEffect);
-    } else {
-        fadeTarget.style.opacity -= 0.1;
-    }
-}, 25);
+// var fadeTarget = this;
+// var fadeEffect = setInterval(function () {
+//     if (!fadeTarget.style.opacity) {
+//         fadeTarget.style.opacity = 1;
+//     }
+//     if (fadeTarget.style.opacity < 0.1) {
+//         clearInterval(fadeEffect);
+//     } else {
+//         fadeTarget.style.opacity -= 0.1;
+//     }
+// }, 25);
