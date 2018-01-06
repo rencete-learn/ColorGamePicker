@@ -7,6 +7,7 @@ var gameMode = hardMode;
 var gameFinished = false;
 
 // Selectors
+var h1 = document.getElementsByTagName("h1")[0];
 var statusLine = document.getElementById("status");
 var rstBtn = document.getElementById("reset");
 var easyBtn = document.getElementById("easyBtn");
@@ -63,6 +64,7 @@ function successEventListener(that) {
     for (var index = 0; index < divs.length; index++) {
         divs[index].style.backgroundColor = applyColor;
     }
+    h1.style.backgroundColor = applyColor;
     gameFinished = true;
 }
 
@@ -109,6 +111,7 @@ function reset() {
     statusLine.textContent = "";
     gameFinished = false;
     rstBtn.textContent = "New Colors";
+    h1.style.backgroundColor = "";
 }
 
 // Generates a random value between 0 and the number passed in
